@@ -15,7 +15,7 @@ const INDUSTRIES = [
 
 type ViewState = "form" | "loading" | "error";
 
-const REQUEST_TIMEOUT_MS = 25000;
+const REQUEST_TIMEOUT_MS = 60000;
 
 export default function GatePage() {
   const router = useRouter();

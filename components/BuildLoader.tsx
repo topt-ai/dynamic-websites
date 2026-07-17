@@ -6,8 +6,12 @@ const STATUS_MESSAGES = [
   "Diseñando tu encabezado...",
   "Escribiendo tu contenido...",
   "Acomodando los colores de tu marca...",
-  "Colocando los últimos detalles...",
+  "Redactando tu historia...",
+  "Puliendo cada sección...",
+  "Ajustando los últimos detalles...",
 ];
+
+const STATUS_INTERVAL_MS = 4000;
 
 const PIXEL = 3;
 
@@ -73,7 +77,7 @@ export default function BuildLoader({ done = false }: { done?: boolean }) {
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       setStatusIndex((i) => (i + 1) % STATUS_MESSAGES.length);
-    }, 3000);
+    }, STATUS_INTERVAL_MS);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
