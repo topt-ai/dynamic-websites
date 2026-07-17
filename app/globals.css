@@ -1,26 +1,69 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: #12161f;
+  --blueprint: #1b3a6b;
+  --blueprint-line: #2c4d84;
+  --accent: #ff5a1f;
+  --signal: #ffc93c;
+  --paper: #fbf7ef;
+  --paper-dim: #f0ead9;
+  --graphite: #4a5361;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-ink: var(--ink);
+  --color-blueprint: var(--blueprint);
+  --color-accent: var(--accent);
+  --color-signal: var(--signal);
+  --color-paper: var(--paper);
+  --color-paper-dim: var(--paper-dim);
+  --color-graphite: var(--graphite);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-body), sans-serif;
+}
+
+/* Blueprint grid backdrop for the gate screen */
+.bg-blueprint-grid {
+  background-color: var(--ink);
+  background-image:
+    linear-gradient(var(--blueprint-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--blueprint-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center;
+}
+
+/* Repeating hazard stripes, used sparingly as a signature motif */
+.hazard-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--signal) 0px,
+    var(--signal) 10px,
+    var(--ink) 10px,
+    var(--ink) 20px
+  );
+}
+
+/* Dashed permit-tag badge treatment */
+.permit-tag {
+  border: 1.5px dashed color-mix(in srgb, var(--paper) 40%, transparent);
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.06em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
