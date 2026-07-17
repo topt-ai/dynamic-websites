@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { brand } from "@/lib/brand-config";
 import { DEMO_SITE_STORAGE_KEY, type DemoSiteData } from "@/lib/types";
@@ -64,10 +65,28 @@ export default function DemoPage() {
 
       {/* Hero */}
       <section
-        className="flex min-h-[85vh] flex-col justify-center px-6 py-24 sm:px-12"
-        style={{ background: heroGradient(data.hero_image_bucket) }}
+        className="relative flex min-h-[85vh] flex-col justify-center overflow-hidden px-6 py-24 sm:px-12"
+        style={
+          data.hero_image_url
+            ? undefined
+            : { background: heroGradient(data.hero_image_bucket) }
+        }
       >
-        <div className="mx-auto w-full max-w-3xl">
+        {data.hero_image_url && (
+          <>
+            <Image
+              src={data.hero_image_url}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-ink/55" />
+          </>
+        )}
+
+        <div className="relative mx-auto w-full max-w-3xl">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-paper/60">
             {brand.name}
           </p>

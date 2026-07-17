@@ -22,6 +22,7 @@ export type DemoSiteData = {
   cta: Cta;
   demo_badge: string;
   hero_image_bucket: string;
+  hero_image_url: string | null;
   source: "seed" | "ai_generated" | "fallback";
 };
 
