@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { brand } from "@/lib/brand-config";
 import { DEMO_SITE_STORAGE_KEY, type DemoSiteData } from "@/lib/types";
+import SectionIconAccent from "@/components/SectionIconAccent";
 
 function hashString(input: string): number {
   let hash = 0;
@@ -21,7 +22,6 @@ function heroGradient(bucket: string): string {
 }
 
 function readStoredData(): DemoSiteData | null {
-  if (typeof window === "undefined") return null;
   const raw = sessionStorage.getItem(DEMO_SITE_STORAGE_KEY);
   if (!raw) return null;
   try {
@@ -33,11 +33,20 @@ function readStoredData(): DemoSiteData | null {
 
 export default function DemoPage() {
   const router = useRouter();
-  const [data] = useState<DemoSiteData | null>(readStoredData);
+  const [data, setData] = useState<DemoSiteData | null>(null);
 
+  // sessionStorage only exists in the browser, so this must run in an
+  // effect: the server (and the client's first hydration pass) render
+  // null either way, which keeps the two in sync and avoids a mismatch.
   useEffect(() => {
-    if (!data) router.replace("/");
-  }, [data, router]);
+    const stored = readStoredData();
+    if (!stored) {
+      router.replace("/");
+      return;
+    }
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time read of a browser-only store on mount, not a cascading update
+    setData(stored);
+  }, [router]);
 
   if (!data) return null;
 
@@ -81,10 +90,9 @@ export default function DemoPage() {
                 i % 2 === 1 ? "sm:flex-row-reverse" : ""
               }`}
             >
-              <div
-                className="h-40 w-full flex-shrink-0 rounded-sm sm:h-52 sm:w-2/5"
-                style={{ background: heroGradient(data.hero_image_bucket + i) }}
-                aria-hidden
+              <SectionIconAccent
+                title={section.title}
+                tone={i % 2 === 0 ? "blueprint" : "paper"}
               />
               <div className="sm:w-3/5">
                 <span className="font-mono text-xs uppercase tracking-wide text-graphite">
